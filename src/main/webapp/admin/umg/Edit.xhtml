@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../../templates/mainTemplate.xhtml" >
+        <ui:define name="content">
+                <h:form>
+            <p:panel header="Редактировать данные">
+                    <p:growl for="MsgId" showDetail="true" autoUpdate="true"/>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Краткое наименование" for="shortName" />
+                        <h:inputText id="shortName" value="#{umgController.selected.shortName}" title="shortname" />
+                        <h:outputLabel value="Полное наименование" for="longName" />
+                        <h:inputText id="longName" value="#{umgController.selected.longName}" title="longName}" />
+                        <h:outputLabel value="Адрес" for="address" />
+                        <h:inputText id="address" value="#{umgController.selected.address}" title="umgTitle_address}" />
+                    </h:panelGrid>
+                    <f:facet name="footer">
+                    <p:commandButton id="saveButton"   
+                                     value="Сохранить" 
+                                     action="#{umgController.update}"/>
+                    <p:commandButton id="listButton"   
+                                     value="Показать список" 
+                                     action="#{umgController.prepareList}"/>
+                </f:facet>
+
+            </p:panel>
+                </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

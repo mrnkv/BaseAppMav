@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../../templates/mainTemplate.xhtml" >
+        <ui:define name="content">
+            <h:outputText />
+            <h:form>
+                <p:panel header="Добавить пользователя">
+                    <p:growl for="MsgId" showDetail="true"><p:autoUpdate/></p:growl>
+
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="логин" for="login"/>
+                        <h:inputText id="login" value="#{appUserController.selected.login}" title="login"/>
+                        <h:outputLabel value="Фамилия" for="famil" />
+                        <h:inputText id="famil" value="#{appUserController.selected.fam}" title="famil" />
+                        <h:outputLabel value="Имя" for="name" />
+                        <h:inputText id="name" value="#{appUserController.selected.name}" title="name" />
+                        <h:outputLabel value="Отчество" for="lname" />
+                        <h:inputText id="lname" value="#{appUserController.selected.lname}" title="lname" />
+                        
+                        <h:outputLabel value="Управление" for="company" />
+                        <p:selectOneMenu id="company" 
+                                         value="#{appUserController.selected.umg}" 
+                                         converter="#{umgConverter}" var="u">
+                            <f:selectItem itemLabel="Выбрать управление" itemValue=""/>
+                            <f:selectItems value="#{umgController.itms}" 
+                                           var="umg" itemLabel="#{umg.shortName}" 
+                                           itemValue="#{umg}"/>
+                            <p:column>
+                                #{u.shortName}
+                            </p:column>
+                        </p:selectOneMenu>
+                        
+                        <h:outputLabel value="Роль" for="rol" />
+                        <p:selectOneMenu id="rol" 
+                                         value="#{appUserController.selected.role}" 
+                                         converter="#{roleConverter}" var="r">
+                            <f:selectItem itemLabel="Выбрать роль" itemValue=""/>
+                            <f:selectItems value="#{appUserController.roles}" 
+                                           var="rolee" itemLabel="#{rolee.roleName.toString()}" 
+                                           itemValue="#{rolee}"/>
+                            <p:column>
+                                #{r.roleName}
+                            </p:column>
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                    <f:facet name="footer">
+                        <p:commandButton id="saveButton"   
+                                         value="Создать"
+                                         ajax="false"
+                                         action="#{appUserController.create}"/>
+                        <p:commandButton id="listButton"   
+                                         value="Показать список" 
+                                         ajax="false"
+                                         action="#{appUserController.prepareList}"/>
+                    </f:facet>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

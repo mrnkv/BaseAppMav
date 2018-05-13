@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title><ui:insert name="title">Система учета и формирование отчетности по регламентным работам</ui:insert></title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    <ui:insert name="top"><h3>Программный модуль для автоматизации планирования, учета и формирования отчетности по 
+                            регламентным работам на объектах технологической связи.</h3>
+                    </ui:insert>
+                    
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    <ui:insert name="bottom">Дополнительная информация</ui:insert>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200" header="скрыть" collapsible="true">
+                    <h:form id="mainMenu">
+                        <p:menu>
+
+                            <p:submenu label="Разделы">
+                                <p:menuitem value="АМС" url="/faces/ams/List.xhtml"/>
+                                <p:menuitem value="Линейная часть" url="" />
+                                <p:menuitem value="Аккумуляторные батареи" url="" />
+
+                            </p:submenu>
+                            <p:submenu label="Администрирование">
+                                <p:menuitem value="Пользователи" url="/faces/admin/user/List.xhtml"/>
+                                <p:menuitem value="Управления" url="/faces/admin/umg/List.xhtml"/>
+                                <p:menuitem value="Выход" 
+                                            rendered="#{request.userPrincipal != null}"
+                                            action="#{userManager.logout}"
+                                            ajax="false"
+                                            immediate="true"
+                                            />
+                            </p:submenu>
+                        </p:menu>
+                        <h:commandLink action="#{userManager.logout}" 
+                                   rendered="#{request.userPrincipal != null}"
+                                   immediate="true">
+                        <h:outputText value="Logout" />
+                    </h:commandLink>
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <ui:insert name="content">
+                        Content
+                    </ui:insert>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+    <f:event type="preRenderView" listener="#{facesContext.externalContext.response.setHeader('Cache-Control', 'no-cache, no-store')}" />
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../../templates/mainTemplate.xhtml" >
+        <ui:define name="content">
+                <h:form>
+            <p:panel header="Редактировать данные пользователя">
+                    <p:growl for="MsgId" showDetail="true" autoUpdate="true"/>
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Фамилия" for="famil" />
+                        <h:inputText id="famil" value="#{appUserController.selected.fam}" title="famil" />
+                        <h:outputLabel value="Имя" for="name" />
+                        <h:inputText id="name" value="#{appUserController.selected.name}" title="name" />
+                        <h:outputLabel value="Отчество" for="lname" />
+                        <h:inputText id="lname" value="#{appUserController.selected.lname}" title="lname" />
+                    </h:panelGrid>
+                    <f:facet name="footer">
+                    <p:commandButton id="saveButton"   
+                                     value="Сохранить" 
+                                     action="#{appUserController.update}"/>
+                    <p:commandButton id="listButton"   
+                                     value="Показать список" 
+                                     action="#{appUserController.prepareList}"/>
+                </f:facet>
+
+            </p:panel>
+                </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
