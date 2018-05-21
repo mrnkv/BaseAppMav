@@ -1,7 +1,10 @@
 package org.mrnkv.baseappmav.entities.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -14,15 +17,14 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
+import org.jboss.security.Base64Encoder;
+import org.jboss.logging.Logger;
+
 import org.mrnkv.baseappmav.entities.umg.*;
 import org.mrnkv.baseappmav.entities.facades.*;
 import org.mrnkv.baseappmav.entities.util.PaginationHelper;
-
-import org.jboss.logging.Logger;
 import org.mrnkv.baseappmav.entities.user.AppUser;
-import org.mrnkv.baseappmav.entities.user.UserRole;
 import org.mrnkv.baseappmav.entities.util.JsfUtil;
-
 import org.mrnkv.baseappmav.security.UserManager;
 
 @Named("appUserController")
@@ -31,14 +33,10 @@ public class AppUserController implements Serializable {
 
     private AppUser current;
     private DataModel items = null;
-    private List<UserRole> roles;
-
+    
     @EJB
     private UserFacade ejbFacade;
     
-    @EJB
-    private RoleFacade ejbRoleFacade;
-
 
     private int selectedItemIndex;
     private PaginationHelper pagination;
@@ -48,14 +46,6 @@ public class AppUserController implements Serializable {
     public AppUserController() {
     }
 
-    private RoleFacade getEjbRoleFacade(){
-        return ejbRoleFacade;
-    }
-
-    public List<UserRole> getRoles(){
-        roles = getEjbRoleFacade().findAll();
-        return roles;
-    }
 
     public AppUser getSelected() {
         if (current == null) {
@@ -106,13 +96,41 @@ public class AppUserController implements Serializable {
         //    selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
+    
+    public String prepareEditPasswd(){
+        current = (AppUser) getItems().getRowData();
+        return "EditPasswd";
+    }
 
     public String update() {
         try {
             getFacade().edit(current);
-            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Record succeffuly updated added."));
+            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Record succeffuly updated."));
             return "View";
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Record not updated"));
+            return null;
+        }
+    }
+
+    public String updatePasswd() {
+        try {
+            byte[] hash = java.security.MessageDigest.getInstance("SHA-256").digest(current.getPassword().getBytes());
+            String passwd = Base64Encoder.encode(hash);
+            current.setPassword(passwd);
+            getFacade().edit(current);
+            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Password succeffuly updated."));
+            return prepareList();
+             
+        } catch (NoSuchAlgorithmException ex) {
+            java.util.logging.Logger.getLogger(AppUserController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        catch (IOException ex) {
+                java.util.logging.Logger.getLogger(AppUserController.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+        }
+        catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Record not updated"));
             return null;
         }

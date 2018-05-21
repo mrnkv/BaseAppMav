@@ -44,7 +44,7 @@
                         <f:facet name="header">
                             <h:outputText value="ROLE"/>
                         </f:facet>                          
-                        <h:outputText value="#{user.role.roleName}"/>
+                        <h:outputText value="#{user.roleName}"/>
                     </p:column>
                     <p:column>                      
                         <f:facet name="header">
@@ -72,9 +72,8 @@
                         <h:outputText value=" "/>
                         <h:commandLink id="editPasswd"
                                        value="Сменить пароль"
-                                       action="#{appUserController.prepareEdit()}"/>
+                                       action="#{appUserController.prepareEditPasswd()}"/>
                         <h:outputText value=" "/>
-                        
                     </p:column>
                     
                 </p:dataTable>

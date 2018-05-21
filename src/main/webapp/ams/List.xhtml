@@ -3,21 +3,162 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../templates/mainTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
         Антенно мачтовые сооружения
     </ui:define>
-
     <ui:define name="content">
-        Антенно-мачтовые сооружения
-                 <p:tabMenu activeIndex="0">
-            <p:menuitem value="Список" outcome="List" icon="ui-icon-star"/>
-            <p:menuitem value="Demos" outcome="List" icon="ui-icon-search" />
-            <p:menuitem value="Documentation" outcome="List" icon="ui-icon-document"/>
-            <p:menuitem value="Support" outcome="List" icon="ui-icon-wrench"/>
-            <p:menuitem value="Social" outcome="List" icon="ui-icon-person" />
-        </p:tabMenu>
+        <h:form id="UmgListForm">
+            <p:panel header="Список dвысотных сооружений">
+                <p:dataTable id="amsList" var="ams"
+                             value="#{amsController.amsList}">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Управление"/>
+                        </f:facet>
+                        <h:outputText value="#{ams.umg.shortName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Управление"/>
+                        </f:facet>
+                        <h:outputText value="#{ams.umg.shortName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Наименование"/>
+                        </f:facet>
+                        <h:outputText value="#{ams.name}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Тип"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.type.getTypeString()}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Материал"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.material.getMaterialString()}"/>
+                    </p:column>
+                    
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Высота"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.height}"/>
+                    </p:column>
+                    
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Год постройки"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.buildYear}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Проект"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.project}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Действия"/>
+                        </f:facet>
+                        <p:commandLink id="viewButton"
+                                       value="Подробности"
+                                       ajax="false"
+                                       />
+                        <br/>
+                        <p:commandLink id="editButton"
+                                       value="Редактировать"
+                                       action="#{amsController.prepareEdit()}"
+                                       ajax="false"/>
+                        <br/>
+                        <p:commandLink id="deleteButton"
+                                       value="Удалить"
+                                       action="#{amsController.destroy()}"
+                                       ajax="false"/>
+                    </p:column>\
+                </p:dataTable>
+                <!--
+                <p:dataTable id="datalist" var="ams" 
+                             value="#{amsController.items}" >
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Управление"/>
+                        </f:facet>
+                        <h:outputText value="#{ams.umg.shortName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Наименование"/>
+                        </f:facet>
+                        <h:outputText value="#{ams.name}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Тип"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.type.getTypeString()}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Материал"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.material.getMaterialString()}"/>
+                    </p:column>
+                    
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Высота"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.height}"/>
+                    </p:column>
+                    
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Год постройки"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.buildYear}"/>
+                    </p:column>
+                    <p:column>                      
+                        <f:facet name="header">
+                            <h:outputText value="Проект"/>
+                        </f:facet>                          
+                        <h:outputText value="#{ams.project}"/>
+                    </p:column>
+                -->
+                    <!--
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions"/>
+                        </f:facet>
+                        <h:commandLink id="deleteButton"
+                                       value="Delete"
+                                       action="#{umgController.destroy()}"
+                                       immediate="true"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink id="editButton"
+                                       value="Edit"
+                                       action="#{umgController.prepareEdit()}"/>
+                        <h:outputText value=" "/>
+                    </p:column>\
+                    -->
+                    <!--
+                </p:dataTable>
+                    -->
+                <f:facet name="footer">
+                    <p:commandButton id="createButton"   
+                                     value="Создать еще" 
+                                     action="#{amsController.prepareCreate}"/>
+                </f:facet>
+            </p:panel>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>

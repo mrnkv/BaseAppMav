@@ -12,57 +12,57 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.jboss.logging.Logger;
+import org.mrnkv.baseappmav.entities.ams.Ams;
 
 import org.mrnkv.baseappmav.entities.umg.*;
 import org.mrnkv.baseappmav.entities.facades.*;
 import org.mrnkv.baseappmav.entities.util.PaginationHelper;
-
-import org.jboss.logging.Logger;
-
 import org.mrnkv.baseappmav.security.UserManager;
 
-@Named("umgController")
+@Named("amsController")
 @SessionScoped
-public class UmgController implements Serializable {
+public class AmsController implements Serializable {
 
-    private Umg current;
+    private Ams current;
     private DataModel items = null;
-    private List<Umg> itms = null;
-
+    private List<Ams> amsList = null;
+    
+    
     @EJB
-    private UmgFacade ejbFacade;
+    private AmsFacade ejbFacade;
     
 
     private int selectedItemIndex;
     private PaginationHelper pagination;
     
-    private static final Logger LOGGER = Logger.getLogger(UmgController.class);
-    
+    private static final Logger LOGGER = Logger.getLogger(AmsController.class);
 
-    public UmgController() {
+    public AmsController() {
     }
-    
 
-    public List<Umg> getItms() {
-        if (itms == null) {
-            itms = ejbFacade.findAll();
+    public List<Ams> getAmsList() {
+        if (amsList == null) {
+            amsList = getFacade().findAll();
         }
-        return itms;
+        return amsList;
     }
 
-    public void setItms(List<Umg> itms) {
-        this.itms = itms;
+    public void setAmsList(List<Ams> amsList) {
+        this.amsList = amsList;
     }
 
-    public Umg getSelected() {
+    
+
+    public Ams getSelected() {
         if (current == null) {
-            current = new Umg();
+            current = new Ams();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UmgFacade getFacade() {
+    private AmsFacade getFacade() {
         return ejbFacade;
     }
 
@@ -72,20 +72,14 @@ public class UmgController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Umg) getItems().getRowData();
-//        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        current = (Ams) getItems().getRowData();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Umg();
+        current = new Ams();
         selectedItemIndex = -1;
-
         return "Create";
-    }
-
-    public void info() {
-
     }
 
     public String create() {
@@ -103,15 +97,15 @@ public class UmgController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Umg) getItems().getRowData();
+        current = (Ams) getItems().getRowData();
         //    selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
-
+    
     public String update() {
         try {
             getFacade().edit(current);
-            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Record succeffuly updated added."));
+            FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Record succeffuly updated."));
             return "View";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("MsgId", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Record not updated"));
@@ -119,8 +113,9 @@ public class UmgController implements Serializable {
         }
     }
 
+
     public String destroy() {
-        current = (Umg) getItems().getRowData();
+        current = (Ams) getItems().getRowData();
         //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         //recreatePagination();
@@ -190,24 +185,11 @@ public class UmgController implements Serializable {
             items = getPagination().createPageDataModel();
         }
         return items;
-        /*
-        if (items == null) {
-            items = new ListDataModel(ejbFacade.findAll());
-            //items = getPagination().createPageDataModel();
-        }
-        
-        if(items == null){
-            System.out.println("IT IS NULL ITEM LIST");
-        }else{
-            System.out.println("IT IS NOT NULL ITM LIST");
-        }
-        
-        return items;
-         */
     }
 
     private void recreateModel() {
         items = null;
+        amsList = null;
     }
 
     public String next() {
@@ -230,22 +212,23 @@ public class UmgController implements Serializable {
     public SelectItem[] getItemsAvailableSelectOne() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
-     */
-    public Umg getUmg(java.lang.Long id) {
+*/
+     
+    public Ams getAms(java.lang.Long id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Umg.class)
-    public static class UmgControllerConverter implements Converter {
+    @FacesConverter(forClass = Ams.class)
+    public static class AmsControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UmgController controller = (UmgController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "umgController");
-            return controller.getUmg(getKey(value));
+            AmsController controller = (AmsController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "amsController");
+            return controller.getAms(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -266,7 +249,7 @@ public class UmgController implements Serializable {
                 return null;
             }
             if (object instanceof Umg) {
-                Umg o = (Umg) object;
+                Ams o = (Ams) object;
                 return getStringKey(o.getId());
             } else {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Umg.class.getName());

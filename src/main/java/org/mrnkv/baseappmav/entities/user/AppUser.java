@@ -7,14 +7,14 @@ package org.mrnkv.baseappmav.entities.user;
 
 import org.mrnkv.baseappmav.entities.umg.Umg;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.hibernate.annotations.Proxy;
 
 /**
@@ -38,16 +38,18 @@ public class AppUser implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     Umg umg;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    UserRole role;
+    @Enumerated(EnumType.STRING)
+    private RoleName roleName;
 
-    public UserRole getRole() {
-        return role;
+    public RoleName getRoleName() {
+        return roleName;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRoleName(RoleName roleName) {
+        this.roleName = roleName;
     }
+
+    
     
     public String getLogin() {
         return login;

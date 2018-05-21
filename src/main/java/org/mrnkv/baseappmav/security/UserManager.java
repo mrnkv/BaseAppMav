@@ -8,8 +8,11 @@ package org.mrnkv.baseappmav.security;
 import java.io.Serializable;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -40,6 +43,15 @@ public class UserManager implements Serializable{
     public String logout(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/faces/main.xhtml";   
+    }
+    
+    public void login(ComponentSystemEvent event){
+        //HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //String url = request.getRequestURL().toString();
+        //return "/faces/main.xhtml";
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) fc.getApplication().getNavigationHandler();
+        nav.performNavigation("/faces/main.xhtml");
     }
     
 }

@@ -10,6 +10,17 @@ package org.mrnkv.baseappmav.entities.ams;
  * @author mrnkv
  */
 public enum AmsMaterial {
-    STEEL,
-    ALUMINIUM
+    STEEL("Сталь"),
+    ALUMINIUM("Алюминий");
+    private final String material;
+    
+    AmsMaterial(String material) { 
+        this.material = material;
+    }
+    
+    public String getMaterialString(){
+        return material;
+    }
+
+
 }

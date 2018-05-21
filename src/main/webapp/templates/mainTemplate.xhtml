@@ -42,19 +42,20 @@
                             <p:submenu label="Администрирование">
                                 <p:menuitem value="Пользователи" url="/faces/admin/user/List.xhtml"/>
                                 <p:menuitem value="Управления" url="/faces/admin/umg/List.xhtml"/>
-                                <p:menuitem value="Выход" 
+                                <p:menuitem value="Выйти" 
                                             rendered="#{request.userPrincipal != null}"
                                             action="#{userManager.logout}"
                                             ajax="false"
                                             immediate="true"
                                             />
+                                <p:menuitem value="Войти" 
+                                            rendered="#{request.userPrincipal == null}"
+                                            url="/faces/loginRedirectPage.xhtml"
+                                            ajax="false"
+                                            immediate="true"
+                                            />
                             </p:submenu>
                         </p:menu>
-                        <h:commandLink action="#{userManager.logout}" 
-                                   rendered="#{request.userPrincipal != null}"
-                                   immediate="true">
-                        <h:outputText value="Logout" />
-                    </h:commandLink>
                     </h:form>
 
 

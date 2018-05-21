@@ -18,6 +18,32 @@
                         <h:inputText id="name" value="#{appUserController.selected.name}" title="name" />
                         <h:outputLabel value="Отчество" for="lname" />
                         <h:inputText id="lname" value="#{appUserController.selected.lname}" title="lname" />
+                        
+                        <h:outputLabel value="Управление" for="company" />
+                        <p:selectOneMenu id="company" 
+                                         value="#{appUserController.selected.umg}" 
+                                         converter="#{umgConverter}" var="u">
+                            <f:selectItem itemLabel="Выбрать управление" itemValue=""/>
+                            <f:selectItems value="#{umgController.itms}" 
+                                           var="umg" itemLabel="#{umg.shortName}" 
+                                           itemValue="#{umg}"/>
+                            <p:column>
+                                #{u.shortName}
+                            </p:column>
+                        </p:selectOneMenu>
+                        
+                        <h:outputLabel value="Роль" for="rol" />
+                        <p:selectOneMenu id="rol" 
+                                         value="#{appUserController.selected.roleName}">
+                            <f:selectItem itemLabel="Выбрать роль" itemValue=""/>
+                            <f:selectItems value="#{userRoleBean.roleNames}" 
+                                           itemLabel="#{userRoleBean.roleName}" 
+                                           itemValue="#{userRoleBean.roleName}"/>
+                            <p:column>
+                                #{r.roleName}
+                            </p:column>
+                        </p:selectOneMenu>
+                        
                     </h:panelGrid>
                     <f:facet name="footer">
                     <p:commandButton id="saveButton"   

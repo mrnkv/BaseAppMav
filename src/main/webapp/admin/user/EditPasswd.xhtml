@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../../templates/mainTemplate.xhtml" >
+        <ui:define name="content">
+            <h:form>
+            <p:panel header="Сменить пароль">
+                <p:growl for="MsgId" showDetail="true" ><p:autoUpdate/></p:growl>
+
+                    <h:panelGrid columns="2" id="passwdPanel">
+                        <h:outputLabel value="Пользователь" for="famil" />
+                        <h:outputText id="famil" value="#{appUserController.selected.login}"/>
+                        <h:outputLabel for="pwd1" value="Введите пароль: *" />
+                        
+                        <p:password id="pwd1" value="#{appUserController.selected.password}" feedback="true"
+                                    match="pwd2" label="Password 1" required="true"/>
+                        <h:outputLabel for="pwd2" value="Повторите ввод: *" />
+                        <p:password id="pwd2" value="#{appUserController.selected.password}" feedback="false"
+                                    label="Password 2" required="true"/>
+                    </h:panelGrid>
+                    <f:facet name="footer">
+                    <p:commandButton id="saveButton"   
+                                     value="Сохранить" 
+                                     update="passwdPanel"
+                                     action="#{appUserController.updatePasswd}"/>
+                    <p:commandButton id="listButton"   
+                                     value="Отмена" 
+                                     action="#{appUserController.prepareList}" immediate="true"/>
+                </f:facet>
+
+            </p:panel>
+                </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

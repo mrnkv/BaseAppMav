@@ -37,12 +37,11 @@
                         
                         <h:outputLabel value="Роль" for="rol" />
                         <p:selectOneMenu id="rol" 
-                                         value="#{appUserController.selected.role}" 
-                                         converter="#{roleConverter}" var="r">
+                                         value="#{appUserController.selected.roleName}">
                             <f:selectItem itemLabel="Выбрать роль" itemValue=""/>
-                            <f:selectItems value="#{appUserController.roles}" 
-                                           var="rolee" itemLabel="#{rolee.roleName.toString()}" 
-                                           itemValue="#{rolee}"/>
+                            <f:selectItems value="#{userRoleBean.roleNames}" 
+                                           itemLabel="#{userRoleBean.roleName}" 
+                                           itemValue="#{userRoleBean.roleName}"/>
                             <p:column>
                                 #{r.roleName}
                             </p:column>
